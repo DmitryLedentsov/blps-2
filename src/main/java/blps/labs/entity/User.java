@@ -43,8 +43,7 @@ public class User {
     @Email
     private String email;
 
-    @Column
-    private String name;
+
 
     @Column
     private String city;
@@ -62,6 +61,9 @@ public class User {
 
     @Column
     private String hobby;
+
+    @Column
+    private Integer balance = 0;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)}, inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)})

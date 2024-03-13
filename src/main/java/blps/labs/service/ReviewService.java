@@ -75,12 +75,12 @@ public class ReviewService {
             @Override
             protected void doInTransactionWithoutResult(TransactionStatus status) {
                 Review review = findReviewById(id);
+                User author = userService.findUserByUsername(review.getAuthorName());
                 if (review.isApproved() == approved && approved)
                     return;
                 review.setApproved(approved);
                 if (!approved && message != null) {
                     try {
-                        User author = userService.findUserByUsername(review.getAuthorName());
                         RejectedUserReview rejectedReview = new RejectedUserReview();
                         rejectedReview.setUser(author);
                         rejectedReview.setMessage(message);
@@ -89,7 +89,9 @@ public class ReviewService {
                         log.warn("Review belongs to not auth user: alert for user not created");
                     }
                 }
+
                 saveReview(review);
+                userService.addToBalance(author, 10);
                 log.debug("{} review with changed approval {} saved in DB", review.getBook().getBookName(), review.getAuthorName());
             }
         });

@@ -34,4 +34,10 @@ public class UserService {
     public User findUserByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
+
+    public void addToBalance(User user, Integer pay){
+        User updated = findUserByUsername(user.getUsername());
+        updated.setBalance(updated.getBalance()+pay);
+        userRepository.save(updated);
+    }
 }
