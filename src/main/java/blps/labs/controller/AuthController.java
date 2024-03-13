@@ -50,7 +50,7 @@ public class AuthController {
             roles.add(role);
         }
         user.setRoles(roles);
-        log.debug("POST request to register user {}", user.getUsername());
+        log.info("Successful {} sign up.", user.getUsername());
         boolean isSaved = userService.saveUser(user);
         return isSaved ? new ResponseEntity<>("Пользователь зарегистрирован", HttpStatus.OK) :
                 new ResponseEntity<>("Пользователь с таким именем уже существует", HttpStatus.BAD_REQUEST);
@@ -67,6 +67,7 @@ public class AuthController {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         final String token = jwtTokenUtil.generateToken(authentication);
+        log.info("Successful {} sign in.", userSignInDTO.getUsername());
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 }

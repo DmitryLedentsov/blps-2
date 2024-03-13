@@ -11,10 +11,10 @@
     <groupId>blps</groupId>
     <artifactId>lab1</artifactId>
     <version>0.0.1</version>
-    <name>lab1</name>
+    <name>lab2</name>
     <description>BLPS lab 1</description>
     <properties>
-        <java.version>17</java.version>
+        <java.version>1.8</java.version>
     </properties>
     <dependencies>
         <dependency>

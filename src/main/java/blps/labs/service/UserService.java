@@ -4,6 +4,7 @@ import blps.labs.entity.User;
 import blps.labs.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,5 +29,9 @@ public class UserService {
         userRepository.save(user);
         log.debug("User {} saved in DB", user.getUsername());
         return true;
+    }
+
+    public User findUserByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }

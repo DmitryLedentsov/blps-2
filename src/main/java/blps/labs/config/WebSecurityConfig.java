@@ -56,26 +56,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(final HttpSecurity http)
-            throws Exception {
+    protected void configure(final HttpSecurity http) throws Exception {
         http.csrf()
                 .disable().
                 authorizeRequests()
                 //Доступ только для не зарегистрированных пользователей
                 .antMatchers("/auth/**").not().fullyAuthenticated()
                 //Доступ только для пользователей с ролью Модератор
-                .antMatchers(HttpMethod.GET, "/moderator/**").hasRole("MODERATOR")
-                .antMatchers(HttpMethod.GET, "/review/approved/false").hasRole("MODERATOR")
-                .antMatchers(HttpMethod.DELETE, "/review/**").hasRole("MODERATOR")
-                .antMatchers(HttpMethod.PATCH, "/review/approval/**").hasRole("MODERATOR")
-
-                //Доступ только для пользователей с ролью Юзер
-                .antMatchers(HttpMethod.GET, "/user/**").hasRole("USER")
-                .antMatchers(HttpMethod.PUT, "/user/**").hasRole("USER")
-
+                .antMatchers(HttpMethod.GET, "/review/approved/false").access("hasAuthority('READ_MODERATOR')")
+                .antMatchers(HttpMethod.DELETE, "/review/**").access("hasAuthority('WRITE_MODERATOR')")
+                .antMatchers(HttpMethod.PATCH, "/review/approval/**").access("hasAuthority('WRITE_MODERATOR')")
                 //Доступ и для Модератора и для Юзера
-                .antMatchers(HttpMethod.GET, "/review/authorName/**").hasAnyRole("MODERATOR", "USER")
-                .antMatchers(HttpMethod.POST, "/review/").hasAnyRole("MODERATOR", "USER")
+                .antMatchers(HttpMethod.GET, "/review/authorName").access("hasAuthority('READ_USER')")
+                .antMatchers(HttpMethod.POST, "/review/").access("hasAuthority('WRITE_USER')")
+                .antMatchers(HttpMethod.GET, "/review/rejected").access("hasAuthority('READ_USER')")
                 //Доступ разрешен всем пользователей
                 .antMatchers(HttpMethod.GET, "/index*", "/static/**", "/*.js", "/*.json", "/*.ico").permitAll()
                 .antMatchers(HttpMethod.GET, "/review/approved/true").permitAll()

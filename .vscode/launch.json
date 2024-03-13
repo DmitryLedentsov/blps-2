@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-BlpsLab1Application<lab1>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "blps.labs.BlpsLab1Application",
+            "projectName": "lab1",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-BlpsLabApplication<lab1>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "blps.labs.BlpsLabApplication",
+            "projectName": "lab1",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
